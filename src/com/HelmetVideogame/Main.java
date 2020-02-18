@@ -11,6 +11,7 @@ public class Main extends JPanel {
     //Ball ball = new Ball(this);
     Player player = new Player(this);
     Object mahou = new Object(this);
+    Door door = new Door(this);
     int speed = 1;
 
     private int getScore() {
@@ -51,7 +52,8 @@ public class Main extends JPanel {
 
         //ball.paint(g2d);
         player.paint(g2d);
-        mahou.paint(g2d, 100, 200, 50, 50);
+        mahou.paint(g2d, 0, 0, 50, 50);
+        door.paint(g2d,500, 400, 30, 75);
 
         g2d.setColor(Color.GRAY);
         g2d.setFont(new Font("Verdana", Font.BOLD, 30));
