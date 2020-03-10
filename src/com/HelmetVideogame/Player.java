@@ -5,9 +5,9 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Player {
-    private static final int Y = 330;
-    private static final int WITH = 25;
-    private static final int HEIGHT = 25;
+    private static final int Y = 326;
+    private static final int WITH = 35;
+    private static final int HEIGHT = 35;
     int x = 0;
     int xa = 0;
     private Main game;

@@ -4,19 +4,22 @@ package com.HelmetVideogame;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Main extends JPanel {
 
     //Ball ball = new Ball(this);
     Player player = new Player(this);
-    Object mahou = new Object(this);
     Door door = new Door(this);
     int speed = 1;
+    static ArrayList<Object> mahous = new ArrayList<Object>();
+    //Graphics2D g2d;
 
     private int getScore() {
         return speed - 1;
     }
+
 
     public Main() {
         addKeyListener(new KeyListener() {
@@ -40,6 +43,7 @@ public class Main extends JPanel {
 
     private void move() {
         //ball.move();
+        //mahous.get(4).move();
         player.move();
     }
 
@@ -52,8 +56,11 @@ public class Main extends JPanel {
 
         //ball.paint(g2d);
         player.paint(g2d);
-        mahou.paint(g2d, 0, 0, 50, 50);
-        door.paint(g2d,500, 400, 30, 75);
+        for(int i = 0; i < mahous.size(); i++) {
+            mahous.get(i).paint(g2d);
+        }
+        door.paint(g2d,0, 286, 30, 75);
+        door.paint(g2d,454, 286, 30, 75);
 
         g2d.setColor(Color.GRAY);
         g2d.setFont(new Font("Verdana", Font.BOLD, 30));
@@ -75,11 +82,15 @@ public class Main extends JPanel {
         frame.setSize(500, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        ins(this);
         while (true) {
             game.move();
             game.repaint();
             Thread.sleep(5);
         }
+
+    }
+    public void ins(Main este) {
+        mahous = Manager.instMahous(este);
     }
 }

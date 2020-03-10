@@ -9,18 +9,70 @@ public class Object {
     private static int WITH = 60;
     private static int HEIGHT = 10;
     int x = 0;
-    int xa = 0;
+    int xa = 1;
     private Main game;
 
-    public Object(Main game) {
-        this.game = game;
-    }
+    private static final int DIAMETER = 20;
 
-    public void paint(Graphics2D g, int x, int Y, int WITH, int HEIGHT) {
+    int y = 0;
+    int ya = 1;
+
+    public Object(Main game, int x, int Y, int WITH, int HEIGHT) {
+        this.game = game;
         this.x = x;
         this.Y = Y;
         this.WITH = WITH;
         this.HEIGHT = HEIGHT;
+    }
+
+    void move() {
+        boolean changeDirection = true;
+        if (x + xa > 0 && x + xa < game.getWidth() - WITH)
+            x = x + xa;
+        if (x + xa < 0)
+            xa = game.speed;
+        else if (x + xa > game.getWidth() - DIAMETER)
+            xa = -game.speed;
+        else if (y + ya < 0)
+           ya = game.speed;
+        else if (y + ya > game.getHeight() - DIAMETER)
+            game.gameOver();
+        if (collision()){
+            ya = -game.speed;
+            y = game.player.getTopY() - DIAMETER;
+            game.speed++;
+        }
+        /*else if(collisionMahou()){
+            System.out.println(this.y + this.DIAMETER + " <= " + game.mahou.getY());
+            System.out.println(this.y + " <= " + game.mahou.getUnderY());
+            if(this.y + this.DIAMETER - 1 <= game.mahou.getY()){
+                ya = -1;
+            }
+            else if(this.y + 1 >= game.mahou.getUnderY()){
+                ya = 1;
+            }
+            else if(this.x + this.DIAMETER - 1 <= game.mahou.getX()){
+                xa = -1;
+            }
+            else if(this.x + 1 >= game.mahou.getRightX()){
+                xa = 1;
+            }
+        }*/
+
+        //if (changeDirection)
+        //Sound.BALL.play();
+        x = x + xa;
+        y = y + ya;
+    }
+
+    private boolean collision() {
+        return game.player.getBounds().intersects(getBounds());
+    }
+    /*private boolean collisionMahou() {
+        return game.mahou.getBoundsMahou().intersects(getBounds());
+    }*/
+
+    public void paint(Graphics2D g) {
         g.fillRect(x, Y, WITH, HEIGHT);
     }
 
