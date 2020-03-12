@@ -10,11 +10,12 @@ import javax.swing.*;
 public class Main extends JPanel {
 
     //Ball ball = new Ball(this);
+    Manager mahouss;
+    ArrayList<Object> mahous;
     Player player = new Player(this);
     Door door = new Door(this);
     int speed = 1;
-    static ArrayList<Object> mahous = new ArrayList<Object>();
-    //Graphics2D g2d;
+    Graphics2D g2d;
 
     private int getScore() {
         return speed - 1;
@@ -43,7 +44,7 @@ public class Main extends JPanel {
 
     private void move() {
         //ball.move();
-        //mahous.get(4).move();
+        mahous.get(4).move();
         player.move();
     }
 
@@ -55,9 +56,10 @@ public class Main extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         //ball.paint(g2d);
+        ins(this);
         player.paint(g2d);
-        for(int i = 0; i < mahous.size(); i++) {
-            mahous.get(i).paint(g2d);
+        for(int i = 0; i < mahouss.mahouss.size(); i++) {
+            mahouss.mahouss.get(i).paint(g2d);
         }
         door.paint(g2d,0, 286, 30, 75);
         door.paint(g2d,454, 286, 30, 75);
@@ -82,7 +84,7 @@ public class Main extends JPanel {
         frame.setSize(500, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ins(this);
+
         while (true) {
             game.move();
             game.repaint();

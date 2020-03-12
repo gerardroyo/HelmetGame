@@ -2,6 +2,7 @@ package com.HelmetVideogame;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 
 public class Object {
 
@@ -26,7 +27,13 @@ public class Object {
     }
 
     void move() {
-        boolean changeDirection = true;
+
+
+            /*ya = -game.speed;
+
+            ya = game.speed;*/
+
+        /*boolean changeDirection = true;
         if (x + xa > 0 && x + xa < game.getWidth() - WITH)
             x = x + xa;
         if (x + xa < 0)
@@ -41,7 +48,7 @@ public class Object {
             ya = -game.speed;
             y = game.player.getTopY() - DIAMETER;
             game.speed++;
-        }
+        }*/
         /*else if(collisionMahou()){
             System.out.println(this.y + this.DIAMETER + " <= " + game.mahou.getY());
             System.out.println(this.y + " <= " + game.mahou.getUnderY());
@@ -61,8 +68,9 @@ public class Object {
 
         //if (changeDirection)
         //Sound.BALL.play();
-        x = x + xa;
-        y = y + ya;
+        //x = x + xa;
+        Y = Y - 1;
+
     }
 
     private boolean collision() {
