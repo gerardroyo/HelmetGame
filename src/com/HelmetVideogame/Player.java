@@ -1,28 +1,69 @@
 package com.HelmetVideogame;
 
+import com.HelmetVideogame.APEXObjects.Kit;
+
+import javax.swing.*;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Player {
-    private static final int Y = 326;
-    private static final int WITH = 35;
-    private static final int HEIGHT = 35;
+    private int WITH;
+    private static int HEIGHT;
+    private int y;
+    int Y;
     int x = 0;
     int xa = 0;
     private Main game;
+    private int vidas;
+    private boolean Movimientos = false;
+    private boolean battery = false;
+    private boolean shuriken = false;
 
-    public Player(Main game) {
+    public boolean isShuriken() { return shuriken; }
+    public void setShuriken(boolean shuriken) { this.shuriken = shuriken; }
+
+    public boolean isBattery() { return battery; }
+    public void setBattery(boolean battery) { this.battery = battery; }
+
+    public void setMovimientos(boolean Movimientos) { this.Movimientos = Movimientos; }
+    public boolean getMovimientos() { return Movimientos; }
+
+    public Player(int y, int WIDTH, int HEIGHT, Main game, int vidas) {
+        this.y = y;
+        this.WITH = WIDTH;
+        this.HEIGHT = HEIGHT;
         this.game = game;
+        this.x = WIDTH;
+        this.vidas = vidas;
     }
 
     public void move() {
-        if (x + xa > 0 && x + xa < game.getWidth() - WITH)
+        if (x + xa > 0 && x + xa < game.getWidth() - WITH) {
             x = x + xa;
+        }
+        else if (game.door2.getBounds().intersects(getBounds())) {
+            if (game.door2.CheckDoorColor()) {
+                x = 50;
+            }
+        }
+
+        for (int i = 0; i < Object.objectMove.size(); i++) {
+            if (Object.objectMove.get(i).collisionCharacter() && !Object.objectMove.get(i).isCollisionedWithCharacter()) {
+                if (!isBattery() || Object.objectMove.get(i) instanceof Kit) {
+                    Object.objectMove.get(i).setCollisionedWithCharacter(true);
+                    Object.objectMove.get(i).ObjectAction();
+                }
+            }
+        }
+
+        xa = 0;
+
     }
 
     public void paint(Graphics2D g) {
-        g.fillRect(x, Y, WITH, HEIGHT);
+        y = game.getHeight() - HEIGHT;
+        g.drawImage(new ImageIcon(getClass().getResource("/imatges/player.gif")).getImage(), x, y, WITH, HEIGHT,null);
     }
 
     public void keyReleased(KeyEvent e) {
@@ -40,8 +81,14 @@ public class Player {
         return new Rectangle(x, Y, WITH, HEIGHT);
     }
 
-    public int getTopY() {
-        return Y - HEIGHT;
-    }
+    public int getVidas() { return vidas; }
+
+    public void setVidas(int vidas) { this.vidas = vidas; }
+
+    public void setX(int x) { this.x = x; }
+
+    public static int getHEIGHT() { return HEIGHT; }
+
+
 
 }

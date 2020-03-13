@@ -4,25 +4,31 @@ package com.HelmetVideogame;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
+import static javax.imageio.ImageIO.read;
 
 public class Main extends JPanel {
 
     //Ball ball = new Ball(this);
-    Manager mahouss;
-    ArrayList<Object> mahous;
-    Player player = new Player(this);
-    Door door = new Door(this);
-    int speed = 1;
-    Graphics2D g2d;
-
-    private int getScore() {
-        return speed - 1;
-    }
-
+    public Player player = new Player(310, 50, 50, this, 3);
+    int speed = 60;
+    public int puntuacion;
+    Object object;
+    Door door = new Door(-26, 0, 75, 70, this);
+    Door door2 = new Door(406, 0, 75, 70, this);
+    ImageIcon image = new ImageIcon(getClass().getResource("/imatges/background.png"));
 
     public Main() {
+
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -43,9 +49,9 @@ public class Main extends JPanel {
     }
 
     private void move() {
-        //ball.move();
-        mahous.get(4).move();
-        player.move();
+        if (!player.isShuriken()) {
+            player.move();
+        }
     }
 
     @Override
@@ -54,45 +60,53 @@ public class Main extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
 
-        //ball.paint(g2d);
-        ins(this);
         player.paint(g2d);
-        for(int i = 0; i < mahouss.mahouss.size(); i++) {
-            mahouss.mahouss.get(i).paint(g2d);
+        for(int i = 0; i < object.objectMove.size(); i++) {
+            object.objectMove.get(i).paint(g2d);
         }
-        door.paint(g2d,0, 286, 30, 75);
-        door.paint(g2d,454, 286, 30, 75);
+        door.paint(g2d);
+        door2.paint(g2d);
 
         g2d.setColor(Color.GRAY);
         g2d.setFont(new Font("Verdana", Font.BOLD, 30));
-        g2d.drawString(String.valueOf(getScore()), 10, 30);
+        g2d.drawString(String.valueOf(getPuntuacion()), 10, 30);
+    }
+
+    public void Threads() {
+        object = new Object(this);
+        object.start();
+        door2.start();
     }
 
     public void gameOver() {
-        //Sound.BACK.stop();
-        //Sound.GAMEOVER.play();
-        JOptionPane.showMessageDialog(this, "your score is: " + getScore(),
-                "Game Over", JOptionPane.YES_NO_OPTION);
-        System.exit(ABORT);
+        if (player.getVidas() <= 0) {
+            JOptionPane.showMessageDialog(this, "your score is: " + getPuntuacion(),
+                    "Game Over", JOptionPane.YES_NO_OPTION);
+            System.exit(ABORT);
+        }
     }
 
     public static void main(String[] args) throws InterruptedException {
-        JFrame frame = new JFrame("HELMET by Gerard Royo");
+        JFrame frame = new JFrame("APEX HELMET by Gerard Royo");
         Main game = new Main();
         frame.add(game);
+        frame.setBackground(Color.black);
         frame.setSize(500, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.Threads();
 
         while (true) {
+            game.gameOver();
             game.move();
             game.repaint();
             Thread.sleep(5);
         }
 
     }
-    public void ins(Main este) {
-        mahous = Manager.instMahous(este);
-    }
+
+    public int getPuntuacion() { return puntuacion; }
+    public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
 }
