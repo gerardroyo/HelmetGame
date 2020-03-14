@@ -3,9 +3,12 @@ package com.HelmetVideogame;
 import com.HelmetVideogame.APEXObjects.Kit;
 
 import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 public class Player {
     private int WITH;
@@ -19,6 +22,9 @@ public class Player {
     private boolean Movimientos = false;
     private boolean battery = false;
     private boolean shuriken = false;
+
+    URL url = Sound.class.getResource("/Sonidos/super-mario-bros-coin-sound-effect.wav");
+    AudioClip clip = Applet.newAudioClip(url);
 
     public boolean isShuriken() { return shuriken; }
     public void setShuriken(boolean shuriken) { this.shuriken = shuriken; }
@@ -38,13 +44,15 @@ public class Player {
         this.vidas = vidas;
     }
 
-    public void move() {
-        if (x + xa > 0 && x + xa < game.getWidth() - WITH) {
+    public void move() throws InterruptedException {
+        if (x + xa >= WITH && x + xa < game.getWidth() - WITH) {
             x = x + xa;
         }
         else if (game.door2.getBounds().intersects(getBounds())) {
             if (game.door2.CheckDoorColor()) {
                 x = 50;
+                game.setPuntuacion(game.getPuntuacion() + 5);
+                clip.play();
             }
         }
 
@@ -62,7 +70,7 @@ public class Player {
     }
 
     public void paint(Graphics2D g) {
-        y = game.getHeight() - HEIGHT;
+        Y = game.getHeight() - HEIGHT;
         g.drawImage(new ImageIcon(getClass().getResource("/imatges/player.gif")).getImage(), x, y, WITH, HEIGHT,null);
     }
 

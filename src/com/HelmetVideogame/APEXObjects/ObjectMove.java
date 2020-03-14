@@ -37,11 +37,11 @@ public abstract class ObjectMove extends Thread{
             }
         }
 
-        game.setPuntuacion(1);
+        //game.setPuntuacion(1);
         Object.DeleteObject(this);
     }
 
-    public abstract void ObjectAction();
+    public abstract void ObjectAction() throws InterruptedException;
 
     public boolean isCollisionedWithCharacter() {
         return collisionedWithCharacter;

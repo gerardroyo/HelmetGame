@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,6 +27,8 @@ public class Main extends JPanel {
     Door door = new Door(-26, 0, 75, 70, this);
     Door door2 = new Door(406, 0, 75, 70, this);
     ImageIcon image = new ImageIcon(getClass().getResource("/imatges/background.png"));
+
+    int nsTio = 0;
 
     public Main() {
 
@@ -48,7 +51,7 @@ public class Main extends JPanel {
         //Sound.BACK.loop();
     }
 
-    private void move() {
+    private void move() throws InterruptedException {
         if (!player.isShuriken()) {
             player.move();
         }
@@ -71,7 +74,8 @@ public class Main extends JPanel {
 
         g2d.setColor(Color.GRAY);
         g2d.setFont(new Font("Verdana", Font.BOLD, 30));
-        g2d.drawString(String.valueOf(getPuntuacion()), 10, 30);
+        g2d.drawString("Puntuación: " + String.valueOf(getPuntuacion()), 10, 30);
+        g2d.drawString("Vidas: " + String.valueOf(player.getVidas()), 10, 60);
     }
 
     public void Threads() {
@@ -80,15 +84,42 @@ public class Main extends JPanel {
         door2.start();
     }
 
-    public void gameOver() {
-        if (player.getVidas() <= 0) {
-            JOptionPane.showMessageDialog(this, "your score is: " + getPuntuacion(),
-                    "Game Over", JOptionPane.YES_NO_OPTION);
-            System.exit(ABORT);
+    public void gameOver() throws ParseException, org.json.simple.parser.ParseException, IOException {
+        if(nsTio > 0) {
+            ArrayList<String> partidasArray = new ArrayList<String>();
+            String partidasString = "   Puntuaciones: " + "\n" + "";
+            partidasArray = Json.visualitzarPuntuaciones();
+
+            for(int i = 0; i < partidasArray.size(); i++) {
+                partidasString = partidasString + partidasArray.get(i) + "\n";
+            }
+
+            if (player.getVidas() <= 0) {
+                JOptionPane.showMessageDialog(this, "Puntuación: " + getPuntuacion() + "\n" + "\n" + partidasString,
+                        "Game Over", JOptionPane.YES_NO_OPTION);
+                System.exit(ABORT);
+            }
+
+            String playerName = JOptionPane.showInputDialog("Nombre: ");
+            nsTio++;
+        } else {
+            if (player.getVidas() <= 0) {
+                JOptionPane.showMessageDialog(this, "Puntuación: " + getPuntuacion() ,
+                        "Game Over", JOptionPane.YES_NO_OPTION);
+                System.exit(ABORT);
+
+                String playerName = JOptionPane.showInputDialog("Nombre:");
+
+            }
         }
+
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public void top5() {
+
+    }
+
+    public static void main(String[] args) throws InterruptedException, ParseException, org.json.simple.parser.ParseException, IOException {
         JFrame frame = new JFrame("APEX HELMET by Gerard Royo");
         Main game = new Main();
         frame.add(game);
