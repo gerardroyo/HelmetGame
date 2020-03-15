@@ -10,7 +10,7 @@ public class Door extends Thread{
     private static int HEIGHT = 10;
     int x = 0;
     private Main game;
-    private String image;
+    private String imatge;
     private Color color = Color.GREEN;
 
     public Door(int x, int y, int WIDTH, int HEIGHT, Main game) {
@@ -19,14 +19,8 @@ public class Door extends Thread{
         this.WITH = WIDTH;
         this.HEIGHT = HEIGHT;
         this.game = game;
-        if (this.x == 0) { this.image = "/imatges/door.png";  }
-        else { this.image = "/imatges/door_opened.png"; }
-    }
-
-    public void paint(Graphics2D g) {
-        Y = game.getHeight() - HEIGHT;
-        g.setColor(color);
-        g.drawImage(new ImageIcon(getClass().getResource(image)).getImage(), x, Y, WITH, HEIGHT,null);
+        if (this.x == 0) { this.imatge = "/imatges/door.png";  }
+        else { this.imatge = "/imatges/door_opened.png"; }
     }
 
     @Override
@@ -34,13 +28,12 @@ public class Door extends Thread{
         while(true) {
             if (color == Color.GREEN) {
                 setColor(Color.RED);
-                image = "/imatges/door_closed.png";
+                imatge = "/imatges/door_closed.png";
             }
             else if (color == Color.RED) {
                 setColor(Color.GREEN);
-                image = "/imatges/door_opened.png";
+                imatge = "/imatges/door_opened.png";
             }
-
             try {
                 Thread.sleep(3450);
             } catch (InterruptedException e) {
@@ -49,10 +42,14 @@ public class Door extends Thread{
         }
     }
 
+    public void paint(Graphics2D g) {
+        Y = game.getHeight() - HEIGHT;
+        g.setColor(color);
+        g.drawImage(new ImageIcon(getClass().getResource(imatge)).getImage(), x, Y, WITH, HEIGHT,null);
+    }
+
     public void setColor(Color color) { this.color = color; }
-
     public boolean CheckDoorColor() { return color == Color.GREEN ? true : false; }
-
     public Rectangle getBounds() { return new Rectangle(x, Y, WITH, HEIGHT); }
 
 }

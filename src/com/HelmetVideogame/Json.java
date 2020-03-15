@@ -7,13 +7,9 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class Json {
 
@@ -68,9 +64,9 @@ public class Json {
             }
             int visuEstado = Integer.parseInt(partidesObj.get("RESULTADO").toString());
 
-            partidasArray.add(new ScoreUser(i, visuJugador, visuEstado));
+            partidasArray.add(new ScoreUser(visuJugador, visuEstado));
         }
-        Collections.sort(partidasArray, new Main.OrdenarPersonaPorAltura());
+        Collections.sort(partidasArray, new Main.OrdenarPorPuntuacion());
 
         for(int i = 0; i < partidasArray.size(); i++) {
             if (i >= 4) {
@@ -79,19 +75,4 @@ public class Json {
         }
         return partidasArray;
     }
-
-    /*public ArrayList<String> top5Filter(ArrayList<String> allPartidas) {
-        ArrayList<String> top5 = new ArrayList<String>();
-
-        for(int i = 0; i < allPartidas.size(); i++) {
-
-            if(allPartidas(i)) {
-
-            }
-
-        }
-
-        return top5;
-    }*/
-
 }

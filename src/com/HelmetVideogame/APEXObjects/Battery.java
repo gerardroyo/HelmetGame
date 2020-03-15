@@ -22,16 +22,7 @@ public class Battery extends ObjectMove{
     }
 
     public void invenc() {
-        Timer tiempo = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                if(game.player.isBattery()){
-                    game.player.setBattery(false);
-                }
-            }
-        };
-        tiempo.schedule(task, 4500);
+
     }
 
     @Override

@@ -4,18 +4,12 @@ package com.HelmetVideogame;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.Comparator;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import static javax.imageio.ImageIO.read;
 
 public class Main extends JPanel {
@@ -25,8 +19,8 @@ public class Main extends JPanel {
     int speed = 60;
     public int puntuacion;
     Object object;
-    Door door = new Door(-26, 0, 75, 70, this);
-    Door door2 = new Door(406, 0, 75, 70, this);
+    Door puerta = new Door(-26, 0, 75, 70, this);
+    Door puerta2 = new Door(406, 0, 75, 70, this);
     ImageIcon image = new ImageIcon(getClass().getResource("/imatges/background.png"));
 
     int nsTio = 0;
@@ -40,7 +34,8 @@ public class Main extends JPanel {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                player.keyReleased(e);
+                player.keyReleased(e)
+                ;
             }
 
             @Override
@@ -70,8 +65,8 @@ public class Main extends JPanel {
         for(int i = 0; i < object.objectMove.size(); i++) {
             object.objectMove.get(i).paint(g2d);
         }
-        door.paint(g2d);
-        door2.paint(g2d);
+        puerta.paint(g2d);
+        puerta2.paint(g2d);
 
         g2d.setColor(Color.GRAY);
         g2d.setFont(new Font("Verdana", Font.BOLD, 30));
@@ -82,10 +77,10 @@ public class Main extends JPanel {
     public void Threads() {
         object = new Object(this);
         object.start();
-        door2.start();
+        puerta2.start();
     }
 
-    public static class OrdenarPersonaPorAltura implements Comparator<ScoreUser> {
+    public static class OrdenarPorPuntuacion implements Comparator<ScoreUser> {
         @Override
         public int compare(ScoreUser o1, ScoreUser o2) {
             return o2.getPuntuacion() - o1.getPuntuacion(); // Devuelve un entero positivo si la altura de o1 es mayor que la de o2
@@ -115,7 +110,7 @@ public class Main extends JPanel {
                 String kkk = "";
 
                 if(partidasArray.size() >= 5) {
-                    partidasArray.add(new ScoreUser(partidasArray.size() + 1, kkk, getPuntuacion()));
+                    partidasArray.add(new ScoreUser(kkk, getPuntuacion()));
                     int count = 0;
                     for(int i = 0; i < partidasArray.size(); i++) {
                         if (partidasArray.get(i).getPuntuacion() < getPuntuacion() && count == 0){
@@ -150,10 +145,6 @@ public class Main extends JPanel {
                 System.exit(ABORT);
             }
         }
-
-    }
-
-    public void top5() {
 
     }
 
