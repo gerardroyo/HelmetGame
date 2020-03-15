@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.util.Comparator;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import static javax.imageio.ImageIO.read;
@@ -84,32 +85,69 @@ public class Main extends JPanel {
         door2.start();
     }
 
+    public static class OrdenarPersonaPorAltura implements Comparator<ScoreUser> {
+        @Override
+        public int compare(ScoreUser o1, ScoreUser o2) {
+            return o2.getPuntuacion() - o1.getPuntuacion(); // Devuelve un entero positivo si la altura de o1 es mayor que la de o2
+        }
+    }
+
     public void gameOver() throws ParseException, org.json.simple.parser.ParseException, IOException {
-        if(nsTio > 0) {
-            ArrayList<String> partidasArray = new ArrayList<String>();
-            String partidasString = "   Puntuaciones: " + "\n" + "";
+
+        ArrayList<ScoreUser> partidasArray = new ArrayList<ScoreUser>();
+        String partidasString = "";
+        if (player.getVidas() <= 0) {
+
+            partidasString = "Puntuaciones: " + "\n" + "";
             partidasArray = Json.visualitzarPuntuaciones();
 
-            for(int i = 0; i < partidasArray.size(); i++) {
-                partidasString = partidasString + partidasArray.get(i) + "\n";
-            }
+        }
 
+        if(!partidasArray.isEmpty()) {
             if (player.getVidas() <= 0) {
+                for(int i = 0; i < partidasArray.size(); i++) {
+                    partidasString = partidasString + partidasArray.get(i) + "\n";
+                }
+
                 JOptionPane.showMessageDialog(this, "Puntuación: " + getPuntuacion() + "\n" + "\n" + partidasString,
                         "Game Over", JOptionPane.YES_NO_OPTION);
+
+                String kkk = "";
+
+                if(partidasArray.size() >= 5) {
+                    partidasArray.add(new ScoreUser(partidasArray.size() + 1, kkk, getPuntuacion()));
+                    int count = 0;
+                    for(int i = 0; i < partidasArray.size(); i++) {
+                        if (partidasArray.get(i).getPuntuacion() < getPuntuacion() && count == 0){
+                            String playerName = JOptionPane.showInputDialog("Nombre: ");
+                            Json.guardarStatsJson(playerName, getPuntuacion());
+                            count++;
+                        }
+                    }
+                    if(count == 0) {
+                        JOptionPane.showMessageDialog(this, "No se te guardara la puntuación porque no llega al TOP 5",
+                                "Game Over", JOptionPane.YES_NO_OPTION);
+                    }
+
+                } else {
+                    String playerName = JOptionPane.showInputDialog("Nombre: ");
+                    Json.guardarStatsJson(playerName, getPuntuacion());
+                }
                 System.exit(ABORT);
             }
 
-            String playerName = JOptionPane.showInputDialog("Nombre: ");
+
             nsTio++;
         } else {
             if (player.getVidas() <= 0) {
                 JOptionPane.showMessageDialog(this, "Puntuación: " + getPuntuacion() ,
                         "Game Over", JOptionPane.YES_NO_OPTION);
-                System.exit(ABORT);
 
                 String playerName = JOptionPane.showInputDialog("Nombre:");
 
+                Json.guardarStatsJson(playerName, getPuntuacion());
+
+                System.exit(ABORT);
             }
         }
 

@@ -12,15 +12,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Json {
 
 
-    public void guardarStatsJson(String nombre, String puntuacion) throws IOException, ParseException, org.json.simple.parser.ParseException {
+    public static void guardarStatsJson(String nombre, int puntuacion) throws IOException, ParseException, org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
-        FileReader llegir = new FileReader("puntuaciones.json");
+        FileReader llegir = new FileReader("puntuacion.json");
+        JSONArray paraules = new JSONArray();
 
-        JSONArray paraules = (JSONArray) parser.parse(llegir);
+        try {
+            paraules = (JSONArray) parser.parse(llegir);
+        } catch (Exception e) { }
 
         //Guardar info del joc dins d'un Json
 
@@ -39,30 +44,39 @@ public class Json {
         omplir.close();
     }
 
-    public static ArrayList<String> visualitzarPuntuaciones() throws IOException, ParseException, org.json.simple.parser.ParseException {
+    public static ArrayList<ScoreUser> visualitzarPuntuaciones() throws IOException, ParseException, org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
         FileReader llegir = new FileReader("puntuacion.json");
         JSONArray partides = new JSONArray();
 
         try {
             partides = (JSONArray) parser.parse(llegir);
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
+        } catch (Exception e) { }
 
-        ArrayList<String> partidasArray = new ArrayList<String>();
+
+        ArrayList<ScoreUser> partidasArray = new ArrayList<ScoreUser>();
+        ArrayList<ScoreUser> partidasArray2 = new ArrayList<ScoreUser>();
 
         for (int i = 0; i < partides.size(); i++) {
             JSONObject partidesObj = (JSONObject) partides.get(i);
+            String visuJugador = "";
             //LLegir Paraula Json
-            String visuJugador = partidesObj.get("JUGADOR").toString();
-            String visuEstado = partidesObj.get("RESULTADO").toString();
+            try {
+                visuJugador = partidesObj.get("JUGADOR").toString();
+            } catch (Exception e) {
+                visuJugador = "Anonimo";
+            }
+            int visuEstado = Integer.parseInt(partidesObj.get("RESULTADO").toString());
 
-            partidasArray.add(visuJugador + ", " + visuEstado);
+            partidasArray.add(new ScoreUser(i, visuJugador, visuEstado));
         }
+        Collections.sort(partidasArray, new Main.OrdenarPersonaPorAltura());
 
-        //partidasArray = top5Filter(partidasArray);
-
+        for(int i = 0; i < partidasArray.size(); i++) {
+            if (i >= 4) {
+                partidasArray.remove(i);
+            }
+        }
         return partidasArray;
     }
 
