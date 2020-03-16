@@ -36,7 +36,7 @@ public class Incendiary extends ObjectMove{
     }
 
     @Override
-    public void ObjectAction() {
+    public void AcionObjeto() {
         game.player.setVidas(game.player.getVidas() - 1);
         game.player.setMovimientos(true);
         Movimientos();

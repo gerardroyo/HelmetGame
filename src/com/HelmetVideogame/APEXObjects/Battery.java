@@ -26,7 +26,7 @@ public class Battery extends ObjectMove{
     }
 
     @Override
-    public void ObjectAction() {
+    public void AcionObjeto() {
         game.player.setBattery(true);
         invenc();
         clip.play();

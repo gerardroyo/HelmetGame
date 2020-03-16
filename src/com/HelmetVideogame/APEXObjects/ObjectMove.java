@@ -42,7 +42,7 @@ public abstract class ObjectMove extends Thread{
         Object.BorrarObjeto(this);
     }
 
-    public abstract void ObjectAction() throws InterruptedException;
+    public abstract void AcionObjeto() throws InterruptedException;
 
     public boolean isPlayerColisioning() {
         return PlayerColisioning;

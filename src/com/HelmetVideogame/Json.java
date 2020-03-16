@@ -41,8 +41,9 @@ public class Json {
     }
 
     public static ArrayList<ScoreUser> visualitzarPuntuaciones() throws IOException, ParseException, org.json.simple.parser.ParseException {
-        JSONParser parser = new JSONParser();
+
         FileReader llegir = new FileReader("puntuacion.json");
+        JSONParser parser = new JSONParser();
         JSONArray partides = new JSONArray();
 
         try {
@@ -51,7 +52,6 @@ public class Json {
 
 
         ArrayList<ScoreUser> partidasArray = new ArrayList<ScoreUser>();
-        ArrayList<ScoreUser> partidasArray2 = new ArrayList<ScoreUser>();
 
         for (int i = 0; i < partides.size(); i++) {
             JSONObject partidesObj = (JSONObject) partides.get(i);
@@ -68,8 +68,8 @@ public class Json {
         }
         Collections.sort(partidasArray, new Main.OrdenarPorPuntuacion());
 
-        for(int i = 0; i < partidasArray.size(); i++) {
-            if (i >= 4) {
+        for(int i = 1; i < partidasArray.size(); i++) {
+            if (i >= 5) {
                 partidasArray.remove(i);
             }
         }

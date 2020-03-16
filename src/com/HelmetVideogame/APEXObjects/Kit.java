@@ -20,7 +20,7 @@ public class Kit extends ObjectMove{
     }
 
     @Override
-    public void ObjectAction() {
+    public void AcionObjeto() {
         game.player.setVidas(game.player.getVidas() + 1);
         clip.play();
     }

@@ -20,7 +20,7 @@ public class Granade extends ObjectMove{
     }
 
     @Override
-    public void ObjectAction() {
+    public void AcionObjeto() {
         game.player.setVidas(game.player.getVidas() - 2);
         game.player.setX(45);
         clip.play();

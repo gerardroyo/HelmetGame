@@ -40,10 +40,22 @@ public class Player {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT)
-            xa = -game.speed;
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-            xa = game.speed;
+        if (Movimientos) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                xa = WITH;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                xa = -WITH;
+            }
+        }
+        else {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                xa = -WITH;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                xa = WITH;
+            }
+        }
     }
 
     public void move() throws InterruptedException {
@@ -61,7 +73,7 @@ public class Player {
             if (Object.objectMove.get(i).PlayerColision() && !Object.objectMove.get(i).isPlayerColisioning()) {
                 if (!isBattery() || Object.objectMove.get(i) instanceof Kit) {
                     Object.objectMove.get(i).setPlayerColisioning(true);
-                    Object.objectMove.get(i).ObjectAction();
+                    Object.objectMove.get(i).AcionObjeto();
                 }
             }
         }
