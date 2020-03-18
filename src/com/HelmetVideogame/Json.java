@@ -52,7 +52,8 @@ public class Json {
 
 
         ArrayList<ScoreUser> partidasArray = new ArrayList<ScoreUser>();
-
+        ArrayList<ScoreUser> partidasArray2 = new ArrayList<ScoreUser>();
+        partidasArray.clear();
         for (int i = 0; i < partides.size(); i++) {
             JSONObject partidesObj = (JSONObject) partides.get(i);
             String visuJugador = "";
@@ -68,11 +69,11 @@ public class Json {
         }
         Collections.sort(partidasArray, new Main.OrdenarPorPuntuacion());
 
-        for(int i = 1; i < partidasArray.size(); i++) {
-            if (i >= 5) {
-                partidasArray.remove(i);
+        for(int i = 0; i < partidasArray.size(); i++) {
+            if (i <= 4) {
+                partidasArray2.add(new ScoreUser(partidasArray.get(i).getNombre(), partidasArray.get(i).getPuntuacion()));
             }
         }
-        return partidasArray;
+        return partidasArray2;
     }
 }

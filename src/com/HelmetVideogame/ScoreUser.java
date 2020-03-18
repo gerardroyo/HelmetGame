@@ -12,13 +12,15 @@ public class ScoreUser implements Comparable<ScoreUser> {
     @Override
     public int compareTo(ScoreUser o) {
         return this.nombre.compareTo(o.nombre);}
+
     public int getPuntuacion() {return puntuacion;}
+
+    public String getNombre() {
+        return nombre;
+    }
 
     @Override
     public String toString() {
-        return
-
-                nombre + " -- " + puntuacion;
-
+        return nombre + " -- " + puntuacion;
     }
 }

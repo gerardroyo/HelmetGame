@@ -1,7 +1,4 @@
-package com.HelmetVideogame.APEXObjects;
-
-import com.HelmetVideogame.Main;
-import com.HelmetVideogame.Sound;
+package com.HelmetVideogame;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -9,7 +6,7 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Battery extends ObjectMove{
+public class Battery extends ObjectMove {
 
     URL url = Sound.class.getResource("/Sonidos/battery.wav");
     AudioClip clip = Applet.newAudioClip(url);
@@ -22,7 +19,16 @@ public class Battery extends ObjectMove{
     }
 
     public void invenc() {
-
+        Timer tiempo = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if(game.player.isBattery()){
+                    game.player.setBattery(false);
+                }
+            }
+        };
+        tiempo.schedule(task, 2000);
     }
 
     @Override

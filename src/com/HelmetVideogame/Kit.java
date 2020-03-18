@@ -1,13 +1,10 @@
-package com.HelmetVideogame.APEXObjects;
-
-import com.HelmetVideogame.Main;
-import com.HelmetVideogame.Sound;
+package com.HelmetVideogame;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
 
-public class Kit extends ObjectMove{
+public class Kit extends ObjectMove {
 
     private Main game;
 

@@ -1,4 +1,4 @@
-package com.HelmetVideogame.APEXObjects;
+package com.HelmetVideogame;
 
 import com.HelmetVideogame.Main;
 import com.HelmetVideogame.Object;

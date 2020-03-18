@@ -1,7 +1,5 @@
 package com.HelmetVideogame;
 
-import com.HelmetVideogame.APEXObjects.Kit;
-
 import javax.swing.*;
 import java.applet.Applet;
 import java.applet.AudioClip;

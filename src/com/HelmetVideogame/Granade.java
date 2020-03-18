@@ -1,14 +1,10 @@
-package com.HelmetVideogame.APEXObjects;
-
-import com.HelmetVideogame.Main;
-import com.HelmetVideogame.Player;
-import com.HelmetVideogame.Sound;
+package com.HelmetVideogame;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
 
-public class Granade extends ObjectMove{
+public class Granade extends ObjectMove {
     private Main game;
 
     URL url = Sound.class.getResource("/Sonidos/minecraft-alpha-damage-sound-effect.wav");
